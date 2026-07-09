@@ -1,0 +1,26 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: ${PORT:-8080}
+  adminConnectors:
+    - type: http
+      port: ${ADMIN_PORT:-8081}
+
+logging:
+  level: INFO
+  loggers:
+    com.learn.finance: DEBUG
+
+mongodb:
+  host: ${MONGO_HOST:-localhost}
+  port: ${MONGO_PORT:-27017}
+  database: ${MONGO_DB:-notifications_db}
+  username: ${MONGO_USER:-root}
+  password: ${MONGO_PASSWORD:-rootpassword}
+
+kafka:
+  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
+  topicAccountEvents: account.events
+  topicTransactionEvents: transaction.events
+  consumerGroupId: notification-service-consumer
+  streamsAppId: notification-streams-app

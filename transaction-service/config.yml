@@ -1,0 +1,30 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: ${PORT:-8080}
+  adminConnectors:
+    - type: http
+      port: ${ADMIN_PORT:-8081}
+
+logging:
+  level: INFO
+  loggers:
+    com.learn.finance: DEBUG
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://${DB_HOST:-localhost}:${DB_PORT:-3306}/${DB_NAME:-finance_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  user: ${DB_USER:-finance_user}
+  password: ${DB_PASSWORD:-finance_pass}
+  maxWaitForConnection: 1s
+  validationQuery: "/* Health Check */ SELECT 1"
+  minSize: 2
+  maxSize: 10
+  checkConnectionOnBorrow: true
+
+kafka:
+  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
+  topicTransactionEvents: transaction.events
+  topicAccountEvents: account.events
+  producerClientId: transaction-service-producer
+  consumerGroupId: transaction-service-consumer

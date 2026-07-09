@@ -1,0 +1,44 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: ${PORT:-8080}
+  adminConnectors:
+    - type: http
+      port: ${ADMIN_PORT:-8081}
+  requestLog:
+    appenders:
+      - type: console
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level: INFO
+  loggers:
+    com.learn.finance: DEBUG
+    org.jdbi: DEBUG
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+
+# ── Database ──────────────────────────────────────────────────────────────────
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://${DB_HOST:-localhost}:${DB_PORT:-3306}/${DB_NAME:-finance_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  user: ${DB_USER:-finance_user}
+  password: ${DB_PASSWORD:-finance_pass}
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "/* Health Check */ SELECT 1"
+  validationQueryTimeout: 3s
+  minSize: 2
+  maxSize: 10
+  checkConnectionOnBorrow: true
+
+# ── Kafka ─────────────────────────────────────────────────────────────────────
+kafka:
+  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
+  topicAccountEvents: account.events
+  producerClientId: account-service-producer
+
