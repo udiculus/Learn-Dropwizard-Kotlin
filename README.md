@@ -158,7 +158,7 @@ Work through the services in order — each introduces new concepts:
 ## 📁 Project Structure
 
 ```
-onboarding/
+root-project/
 ├── pom.xml                          # Parent Maven POM
 ├── docker-compose.yml               # Full stack orchestration
 ├── db/migration/
